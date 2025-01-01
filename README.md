@@ -1,6 +1,8 @@
-# Go OKX OS API
+# OKXOS
 
 This is a Go library for the OKX OS API.
+
+[![Go.Dev reference](https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white)](https://pkg.go.dev/github.com/imzhongqi/okxos?tab=doc)
 
 ## Installation
 
