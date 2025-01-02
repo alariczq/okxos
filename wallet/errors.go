@@ -77,13 +77,13 @@ func IsTransactionStillPending(err error) bool {
 	return errcode.Is(err, 81202)
 }
 
-// IsTransactionExtjsonParametersNotFound 81203 Transaction extjson parameters not found
-func IsTransactionExtjsonParametersNotFound(err error) bool {
+// IsExtjsonParametersNotFound 81203 Transaction extjson parameters not found
+func IsExtjsonParametersNotFound(err error) bool {
 	return errcode.Is(err, 81203)
 }
 
-// IsFromAddressDoesNotBelongToTheAccountID 81302 FromAddress does not belong to the account ID
-func IsFromAddressDoesNotBelongToTheAccountID(err error) bool {
+// IsFromAddressMismatchAccount 81302 FromAddress does not belong to the account ID
+func IsFromAddressMismatchAccount(err error) bool {
 	return errcode.Is(err, 81302)
 }
 

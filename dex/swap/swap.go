@@ -44,6 +44,15 @@ type SwapRequest struct {
 	Slippage string `json:"slippage"`
 	// User's wallet address (e.g.,0x3f6a3f57569358a512ccc0e513f171516b0fd42a), Required
 	UserWalletAddress string `json:"userWalletAddress"`
+	// ReferrerAddress (Supports SOL or SPL Token commissions.
+	// supports SOL using wallet address or SPL token commissions using token account)
+	// The fromToken address that receives the commission.
+	// When using the API, you need to configure the commission ratio using feePercent.
+	// Each transaction can only choose commission from either the fromToken or the toToken.
+	// Note:
+	// 1. For EVM chains: Transactions involving wrapped pairs, such as ETH and WETH, are not supported here.
+	// 2. For Solana chain: The commission address must have some SOL deposited in advance for activation.
+	ReferrerAddress string `json:"referrerAddress"`
 	// Recipient address of a purchased token if not set,
 	//userWalletAddress will receive a purchased token (e.g.,0x3f6a3f57569358a512ccc0e513f171516b0fd42a)
 	SwapReceiverAddress string `json:"swapReceiverAddress"`
@@ -82,6 +91,12 @@ type SwapRequest struct {
 	// The wallet address to receive the commission fee from the toToken.
 	// This new field no longer requires a token account parameter for SPL-Token.
 	ToTokenReferrerWalletAddress string `json:"toTokenReferrerWalletAddress"`
+	// Default is false. When set to true, the original slippage (if set) will be covered by the autoSlippage and
+	// the API will calculate and return auto slippage recommendations based on current market data.
+	AutoSlippage bool `json:"autoSlippage"`
+	// When autoSlippage is set to true, this value is the maximum auto slippage returned by the API.
+	// We recommend that users adopt this value to ensure risk control.
+	MaxAutoSlippage string `json:"maxAutoSlippage"`
 }
 
 type SwapResult struct {
@@ -96,13 +111,18 @@ type SwapResult struct {
 // 2. For Solana chain: The commission address must have some SOL deposited in advance for activation.
 func (d *SwapAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResult, err error) {
 	params := map[string]string{
-		"chainId":             swap.ChainId,
-		"amount":              swap.Amount,
-		"fromTokenAddress":    swap.FromTokenAddress,
-		"toTokenAddress":      swap.ToTokenAddress,
-		"slippage":            swap.Slippage,
-		"userWalletAddress":   swap.UserWalletAddress,
-		"swapReceiverAddress": swap.SwapReceiverAddress,
+		"chainId":           swap.ChainId,
+		"amount":            swap.Amount,
+		"fromTokenAddress":  swap.FromTokenAddress,
+		"toTokenAddress":    swap.ToTokenAddress,
+		"slippage":          swap.Slippage,
+		"userWalletAddress": swap.UserWalletAddress,
+	}
+	if swap.ReferrerAddress != "" {
+		params["referrerAddress"] = swap.ReferrerAddress
+	}
+	if swap.SwapReceiverAddress != "" {
+		params["swapReceiverAddress"] = swap.SwapReceiverAddress
 	}
 	if swap.FeePercent != "" {
 		params["feePercent"] = swap.FeePercent
@@ -136,6 +156,12 @@ func (d *SwapAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResu
 	}
 	if swap.ToTokenReferrerWalletAddress != "" {
 		params["toTokenReferrerWalletAddress"] = swap.ToTokenReferrerWalletAddress
+	}
+	if swap.AutoSlippage {
+		params["autoSlippage"] = "true"
+	}
+	if swap.MaxAutoSlippage != "" {
+		params["maxAutoSlippage"] = swap.MaxAutoSlippage
 	}
 
 	var results []*SwapResult
