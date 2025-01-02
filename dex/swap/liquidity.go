@@ -12,10 +12,10 @@ type Liquidity struct {
 }
 
 // Get Liquidity
-func (d *SwapAPI) GetLiquidity(ctx context.Context, chainId int64) (result []*Liquidity, err error) {
+func (s *SwapAPI) GetLiquidity(ctx context.Context, chainId int64) (result []*Liquidity, err error) {
 	params := map[string]string{
 		"chainId": strconv.FormatInt(chainId, 10),
 	}
-	err = d.tr.Get(ctx, "/api/v5/dex/aggregator/get-liquidity", params, &result)
+	err = s.tr.Get(ctx, "/api/v5/dex/aggregator/get-liquidity", params, &result)
 	return
 }

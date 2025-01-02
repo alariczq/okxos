@@ -109,7 +109,7 @@ type SwapResult struct {
 // Note:
 // 1. For EVM chains: Transactions involving wrapped pairs, such as ETH and WETH, are not supported here.
 // 2. For Solana chain: The commission address must have some SOL deposited in advance for activation.
-func (d *SwapAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResult, err error) {
+func (s *SwapAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResult, err error) {
 	params := map[string]string{
 		"chainId":           swap.ChainId,
 		"amount":            swap.Amount,
@@ -165,7 +165,7 @@ func (d *SwapAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResu
 	}
 
 	var results []*SwapResult
-	if err = d.tr.Get(ctx, "/api/v5/dex/aggregator/swap", params, &results); err != nil {
+	if err = s.tr.Get(ctx, "/api/v5/dex/aggregator/swap", params, &results); err != nil {
 		return nil, err
 	}
 

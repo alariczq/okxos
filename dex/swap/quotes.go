@@ -73,7 +73,7 @@ type QuotesResult struct {
 }
 
 // Get Quotes
-func (d *SwapAPI) GetQuotes(ctx context.Context, req *GetQuotesRequest) (result *QuotesResult, err error) {
+func (s *SwapAPI) GetQuotes(ctx context.Context, req *GetQuotesRequest) (result *QuotesResult, err error) {
 	params := map[string]string{
 		"chainId":                         req.ChainId,
 		"amount":                          req.Amount,
@@ -84,8 +84,7 @@ func (d *SwapAPI) GetQuotes(ctx context.Context, req *GetQuotesRequest) (result 
 		"feePercent":                      req.FeePercent,
 	}
 	var results []*QuotesResult
-	err = d.tr.Get(ctx, "/api/v5/dex/aggregator/quote", params, &results)
-	if err != nil {
+	if err = s.tr.Get(ctx, "/api/v5/dex/aggregator/quote", params, &results); err != nil {
 		return nil, err
 	}
 	if len(results) == 0 {
