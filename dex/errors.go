@@ -1,4 +1,4 @@
-package swap
+package dex
 
 import "github.com/imzhongqi/okxos/errcode"
 

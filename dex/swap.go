@@ -1,22 +1,11 @@
-package swap
+package dex
 
 import (
 	"context"
 	"strings"
 
-	"github.com/imzhongqi/okxos/client"
 	"github.com/imzhongqi/okxos/errcode"
 )
-
-type SwapAPI struct {
-	tr client.Transport
-}
-
-func NewSwapAPI(tr client.Transport) *SwapAPI {
-	return &SwapAPI{
-		tr: tr,
-	}
-}
 
 type Tx struct {
 	Data                 string   `json:"data"`
@@ -109,7 +98,7 @@ type SwapResult struct {
 // Note:
 // 1. For EVM chains: Transactions involving wrapped pairs, such as ETH and WETH, are not supported here.
 // 2. For Solana chain: The commission address must have some SOL deposited in advance for activation.
-func (s *SwapAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResult, err error) {
+func (d *DexAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResult, err error) {
 	params := map[string]string{
 		"chainId":           swap.ChainId,
 		"amount":            swap.Amount,
@@ -165,7 +154,7 @@ func (s *SwapAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResu
 	}
 
 	var results []*SwapResult
-	if err = s.tr.Get(ctx, "/api/v5/dex/aggregator/swap", params, &results); err != nil {
+	if err = d.tr.Get(ctx, "/api/v5/dex/aggregator/swap", params, &results); err != nil {
 		return nil, err
 	}
 

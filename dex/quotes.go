@@ -1,4 +1,4 @@
-package swap
+package dex
 
 import (
 	"context"
@@ -73,7 +73,7 @@ type QuotesResult struct {
 }
 
 // Get Quotes
-func (s *SwapAPI) GetQuotes(ctx context.Context, req *GetQuotesRequest) (result *QuotesResult, err error) {
+func (d *DexAPI) GetQuotes(ctx context.Context, req *GetQuotesRequest) (result *QuotesResult, err error) {
 	params := map[string]string{
 		"chainId":                         req.ChainId,
 		"amount":                          req.Amount,
@@ -84,7 +84,7 @@ func (s *SwapAPI) GetQuotes(ctx context.Context, req *GetQuotesRequest) (result 
 		"feePercent":                      req.FeePercent,
 	}
 	var results []*QuotesResult
-	if err = s.tr.Get(ctx, "/api/v5/dex/aggregator/quote", params, &results); err != nil {
+	if err = d.tr.Get(ctx, "/api/v5/dex/aggregator/quote", params, &results); err != nil {
 		return nil, err
 	}
 	if len(results) == 0 {

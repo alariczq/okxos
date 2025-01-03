@@ -1,4 +1,4 @@
-package swap
+package dex
 
 import (
 	"context"
@@ -31,7 +31,7 @@ type ApproveTransactionsResult struct {
 // we need to make sure that the OKX router has permission to spend funds with the user's wallet before making a transaction.
 //
 // This API will generate the relevant data for calling the contract.
-func (s *SwapAPI) ApproveTransactions(ctx context.Context, req *ApproveTransactionsRequest) (*ApproveTransactionsResult, error) {
+func (s *DexAPI) ApproveTransactions(ctx context.Context, req *ApproveTransactionsRequest) (*ApproveTransactionsResult, error) {
 	params := map[string]string{
 		"chainId":              req.ChainId,
 		"tokenContractAddress": req.TokenAddress,

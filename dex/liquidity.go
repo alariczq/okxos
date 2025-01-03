@@ -1,4 +1,4 @@
-package swap
+package dex
 
 import (
 	"context"
@@ -12,10 +12,10 @@ type Liquidity struct {
 }
 
 // Get Liquidity
-func (s *SwapAPI) GetLiquidity(ctx context.Context, chainId int64) (result []*Liquidity, err error) {
+func (d *DexAPI) GetLiquidity(ctx context.Context, chainId int64) (result []*Liquidity, err error) {
 	params := map[string]string{
 		"chainId": strconv.FormatInt(chainId, 10),
 	}
-	err = s.tr.Get(ctx, "/api/v5/dex/aggregator/get-liquidity", params, &result)
+	err = d.tr.Get(ctx, "/api/v5/dex/aggregator/get-liquidity", params, &result)
 	return
 }
