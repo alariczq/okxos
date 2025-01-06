@@ -71,16 +71,15 @@ type TransactionBroadcastResult struct {
 }
 
 func (w *WalletAPI) TransactionBroadcast(ctx context.Context, tx *TransactionBroadcastRequest) (result *TransactionBroadcastResult, err error) {
-	params := map[string]string{
-		"signedTx":   tx.SignedTx,
-		"chainIndex": tx.ChainIndex,
-		"address":    tx.Address,
+	var results []*TransactionBroadcastResult
+	err = w.tr.Post(ctx, "/api/v5/wallet/pre-transaction/broadcast-transaction", tx, &results)
+	if err != nil {
+		return nil, err
 	}
-	if tx.AccountId != "" {
-		params["accountId"] = tx.AccountId
+	if len(results) == 0 {
+		return nil, errcode.ErrResultsNotFound
 	}
-	err = w.tr.Post(ctx, "/api/v5/wallet/pre-transaction/broadcast-transaction", params, &result)
-	return
+	return results[0], nil
 }
 
 /*
