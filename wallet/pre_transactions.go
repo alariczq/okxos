@@ -82,25 +82,6 @@ func (w *WalletAPI) TransactionBroadcast(ctx context.Context, tx *TransactionBro
 	return results[0], nil
 }
 
-/*
-Nonce#
-Supports querying Nonce on EVM chains, returning the nonce that is about to be confirmed on-chain and the pending nonce in the memory pool.
-
-For example, if the highest confirmed nonce for the current address is 10, and the memory pool has nonce 11 and 12 pending, the returned nonce would be 11, and pendingNonce would be 13.
-
-Request Path#
-GET https://www.okx.com/api/v5/wallet/pre-transaction/nonce
-
-Request Parameters#
-Parameter	Type	Required	Description
-chainIndex	String	Yes	Unique identifier for the chain
-address	String	Yes	Address
-Response Parameters#
-Parameter	Type	Description
-nonce	String	Nonce available for on-chain confirmation
-pendingNonce	String	Pending nonce in the memory pool
-*/
-
 type GetNonceRequest struct {
 	// Unique identifier for the chain
 	ChainIndex string `json:"chainIndex"`
@@ -307,10 +288,10 @@ type SignInfoResult struct {
 
 func (s *SignInfoResult) UnmarshalJSON(data []byte) (err error) {
 	r := bytes.NewReader(data)
-	decoder := json.NewDecoder(r)
-	decoder.DisallowUnknownFields()
 	decode := func(v any) error {
 		r.Seek(0, io.SeekStart)
+		decoder := json.NewDecoder(r)
+		decoder.DisallowUnknownFields()
 		return decoder.Decode(v)
 	}
 
