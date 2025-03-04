@@ -45,7 +45,7 @@ type SwapRequest struct {
 	// Recipient address of a purchased token if not set,
 	//userWalletAddress will receive a purchased token (e.g.,0x3f6a3f57569358a512ccc0e513f171516b0fd42a)
 	SwapReceiverAddress string `json:"swapReceiverAddress"`
-	// The percentage of fromTokenAmount will be sent to the referrer’s address,
+	// The percentage of fromTokenAmount will be sent to the referrer's address,
 	// the rest will be set as the input amount to be sold.
 	// Min percentage: 0. Max percentage: 3. Maximum 2 decimal points.
 	// Longer sections will be automatically omitted. (E.g. 1.326% is the actual input, but the final calculation will only adopt 1.32%.)
@@ -61,8 +61,8 @@ type SwapRequest struct {
 	// You can customize the parameters to be sent on the blockchain in callData by encoding the
 	// data into a 128-character 64-bytes hexadecimal string.
 	// For example, the string
-	// “0x111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111”
-	// needs to keep the “0x” at its start.
+	// "0x111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+	// needs to keep the "0x" at its start.
 	CallDataMemo string `json:"callDataMemo"`
 	// The toToken address that receives the commission.
 	ToTokenReferrerAddress string `json:"toTokenReferrerAddress"`
@@ -71,7 +71,7 @@ type SwapRequest struct {
 	// The higher the price, the more likely that the transaction can be processed faster.
 	ComputeUnitPrice string `json:"computeUnitPrice"`
 	// Used for transactions on the Solana network and analogous to gasLimit on Ethereum,
-	// which ensures that the transaction won’t take too much computing resource.
+	// which ensures that the transaction won't take too much computing resource.
 	ComputeUnitLimit string `json:"computeUnitLimit"`
 	// The wallet address to receive the commission fee from the fromToken.
 	// This new field no longer requires a token account parameter for SPL Token;
@@ -163,4 +163,79 @@ func (d *DexAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResul
 	}
 
 	return results[0], nil
+}
+
+type GetSolSwapInstructionRequest struct {
+	ChainId                         string
+	Amount                          string
+	FromTokenAddress                string
+	ToTokenAddress                  string
+	Slippage                        string
+	UserWalletAddress               string
+	SwapReceiverAddress             string
+	FeePercent                      string
+	FromTokenReferrerWalletAddress  string
+	ToTokenReferrerWalletAddress    string
+	DexIds                          []string
+	PriceImpactProtectionPercentage string
+	ComputeUnitPrice                string
+	ComputeUnitLimit                string
+}
+
+type GetSolSwapInstructionResult struct {
+	AddressLookupTableAccount []string          `json:"addressLookupTableAccount"`
+	InstructionLists          []InstructionInfo `json:"instructionLists"`
+}
+
+type InstructionInfo struct {
+	Data      string        `json:"data"`
+	Accounts  []AccountInfo `json:"accounts"`
+	ProgramId string        `json:"programId"`
+}
+
+type AccountInfo struct {
+	IsSigner   bool   `json:"isSigner"`
+	IsWritable bool   `json:"isWritable"`
+	Pubkey     string `json:"pubkey"`
+}
+
+func (d *DexAPI) GetSolSwapInstruction(ctx context.Context, req *GetSolSwapInstructionRequest) (result *GetSolSwapInstructionResult, err error) {
+	params := map[string]string{
+		"chainId":           req.ChainId,
+		"amount":            req.Amount,
+		"fromTokenAddress":  req.FromTokenAddress,
+		"toTokenAddress":    req.ToTokenAddress,
+		"slippage":          req.Slippage,
+		"userWalletAddress": req.UserWalletAddress,
+	}
+	if req.SwapReceiverAddress != "" {
+		params["swapReceiverAddress"] = req.SwapReceiverAddress
+	}
+	if req.FeePercent != "" {
+		params["feePercent"] = req.FeePercent
+	}
+	if req.FromTokenReferrerWalletAddress != "" {
+		params["fromTokenReferrerWalletAddress"] = req.FromTokenReferrerWalletAddress
+	}
+	if req.ToTokenReferrerWalletAddress != "" {
+		params["toTokenReferrerWalletAddress"] = req.ToTokenReferrerWalletAddress
+	}
+	if len(req.DexIds) > 0 {
+		params["dexIds"] = strings.Join(req.DexIds, ",")
+	}
+	if req.PriceImpactProtectionPercentage != "" {
+		params["priceImpactProtectionPercentage"] = req.PriceImpactProtectionPercentage
+	}
+	if req.ComputeUnitPrice != "" {
+		params["computeUnitPrice"] = req.ComputeUnitPrice
+	}
+	if req.ComputeUnitLimit != "" {
+		params["computeUnitLimit"] = req.ComputeUnitLimit
+	}
+
+	if err = d.tr.Get(ctx, "/api/v5/dex/aggregator/swap-instruction", params, &result); err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
