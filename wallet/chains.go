@@ -32,7 +32,7 @@ type TokenPrice struct {
 	Time         string `json:"time"`
 }
 
-func (w *WalletAPI) TokenIndexPrice(ctx context.Context, req []*TokenIndexPriceRequest) (result []*TokenPrice, err error) {
+func (w *WalletAPI) TokenIndexPrice(ctx context.Context, req []*TokenIndexPriceRequest) (result []TokenPrice, err error) {
 	err = w.tr.Post(ctx, "/api/v5/wallet/token/current-price", req, &result)
 	return
 }
@@ -43,7 +43,7 @@ type RealTimeTokenPriceRequest struct {
 }
 
 // Real-time Token Price
-func (w *WalletAPI) RealTimeTokenPrice(ctx context.Context, req []*RealTimeTokenPriceRequest) (result []*TokenPrice, err error) {
+func (w *WalletAPI) RealTimeTokenPrice(ctx context.Context, req []*RealTimeTokenPriceRequest) (result []TokenPrice, err error) {
 	err = w.tr.Post(ctx, "/api/v5/wallet/token/real-time-price", req, &result)
 	return
 }

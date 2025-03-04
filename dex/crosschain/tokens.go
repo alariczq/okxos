@@ -14,7 +14,7 @@ type TokenInfo struct {
 }
 
 // GetSupportedTokens List of tokens available for traded directly across the cross-chain bridge.
-func (c *CrossChainAPI) GetSupportedTokens(ctx context.Context, chainId string) (result []*TokenInfo, err error) {
+func (c *CrossChainAPI) GetSupportedTokens(ctx context.Context, chainId string) (result []TokenInfo, err error) {
 	params := map[string]string{}
 	if chainId != "" {
 		params["chainId"] = chainId
@@ -33,7 +33,7 @@ type TokenPair struct {
 }
 
 // GetSupportedBridgeTokensPairs List of tokens pairs available for traded directly across the cross-chain bridge.
-func (c *CrossChainAPI) GetSupportedBridgeTokensPairs(ctx context.Context, fromChainId string) (result []*TokenPair, err error) {
+func (c *CrossChainAPI) GetSupportedBridgeTokensPairs(ctx context.Context, fromChainId string) (result []TokenPair, err error) {
 	params := map[string]string{
 		"fromChainId": fromChainId,
 	}

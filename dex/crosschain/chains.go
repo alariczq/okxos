@@ -11,7 +11,7 @@ type ChainInfo struct {
 }
 
 // GetSupportedChains Get supported chains
-func (c *CrossChainAPI) GetSupportedChains(ctx context.Context, chainId string) (result []*ChainInfo, err error) {
+func (c *CrossChainAPI) GetSupportedChains(ctx context.Context, chainId string) (result []ChainInfo, err error) {
 	params := map[string]string{}
 	if chainId != "" {
 		params["chainId"] = chainId

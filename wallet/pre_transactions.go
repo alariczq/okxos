@@ -292,6 +292,8 @@ func (s *SignInfoResult) UnmarshalJSON(data []byte) (err error) {
 		r.Seek(0, io.SeekStart)
 		decoder := json.NewDecoder(r)
 		decoder.DisallowUnknownFields()
+		decoder.More()
+
 		return decoder.Decode(v)
 	}
 
