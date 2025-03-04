@@ -41,15 +41,15 @@ type TokenInfo struct {
 }
 
 type SubRouter struct {
-	DexProtocol []*DexProtocol `json:"dexProtocol"`
-	FromToken   *TokenInfo     `json:"fromToken"`
-	ToToken     *TokenInfo     `json:"toToken"`
+	DexProtocol []DexProtocol `json:"dexProtocol"`
+	FromToken   *TokenInfo    `json:"fromToken"`
+	ToToken     *TokenInfo    `json:"toToken"`
 }
 
 type DexRouter struct {
-	Router        string       `json:"router"`
-	RouterPercent string       `json:"routerPercent"`
-	SubRouterList []*SubRouter `json:"subRouterList"`
+	Router        string      `json:"router"`
+	RouterPercent string      `json:"routerPercent"`
+	SubRouterList []SubRouter `json:"subRouterList"`
 }
 
 type QuoteCompare struct {
@@ -60,16 +60,16 @@ type QuoteCompare struct {
 }
 
 type QuotesResult struct {
-	ChainId          string          `json:"chainId"`
-	DexRouterList    []*DexRouter    `json:"dexRouterList"`
-	EstimateGasFee   string          `json:"estimateGasFee"`
-	FromToken        TokenInfo       `json:"fromToken"`
-	FromTokenAmount  string          `json:"fromTokenAmount"`
-	PriceImpactPct   string          `json:"priceImpactPct"`
-	QuoteCompareList []*QuoteCompare `json:"quoteCompareList"`
-	ToToken          TokenInfo       `json:"toToken"`
-	ToTokenAmount    string          `json:"toTokenAmount"`
-	TradeFee         string          `json:"tradeFee"`
+	ChainId          string         `json:"chainId"`
+	DexRouterList    []DexRouter    `json:"dexRouterList"`
+	EstimateGasFee   string         `json:"estimateGasFee"`
+	FromToken        TokenInfo      `json:"fromToken"`
+	FromTokenAmount  string         `json:"fromTokenAmount"`
+	PriceImpactPct   string         `json:"priceImpactPct"`
+	QuoteCompareList []QuoteCompare `json:"quoteCompareList"`
+	ToToken          TokenInfo      `json:"toToken"`
+	ToTokenAmount    string         `json:"toTokenAmount"`
+	TradeFee         string         `json:"tradeFee"`
 }
 
 // Get Quotes

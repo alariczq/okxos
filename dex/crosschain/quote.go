@@ -42,9 +42,9 @@ type SubRouter struct {
 }
 
 type DexRouter struct {
-	Router        string       `json:"router"`
-	RouterPercent string       `json:"routerPercent"`
-	SubRouterList []*SubRouter `json:"subRouterList"`
+	Router        string      `json:"router"`
+	RouterPercent string      `json:"routerPercent"`
+	SubRouterList []SubRouter `json:"subRouterList"`
 }
 
 type BridgeRouter struct {
@@ -66,53 +66,9 @@ type Router struct {
 	MinimumReceived     string        `json:"minimumReceived"`
 	NeedApprove         int           `json:"needApprove"`
 	Router              *BridgeRouter `json:"router"`
-	FromDexRouterList   []*DexRouter  `json:"fromDexRouterList"`
-	ToDexRouterList     []*DexRouter  `json:"toDexRouterList"`
+	FromDexRouterList   []DexRouter   `json:"fromDexRouterList"`
+	ToDexRouterList     []DexRouter   `json:"toDexRouterList"`
 }
-
-/*
-{
-  "code": "0",
-  "data": [
-    {
-      "fromChainId": "501",
-      "fromToken": {
-        "decimals": 6,
-        "tokenContractAddress": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-        "tokenSymbol": "USDC"
-      },
-      "fromTokenAmount": "10000000000",
-      "routerList": [
-        {
-          "estimateGasFee": "211587",
-          "estimateTime": "430",
-          "fromChainNetworkFee": "591000",
-          "fromDexRouterList": [],
-          "minimumReceived": "9996895509",
-          "needApprove": 1,
-          "router": {
-            "bridgeId": 662,
-            "bridgeName": "Circle-Bridge",
-            "crossChainFee": "3.104491",
-            "crossChainFeeTokenAddress": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-            "otherNativeFee": "0"
-          },
-          "toChainNetworkFee": "0",
-          "toDexRouterList": [],
-          "toTokenAmount": "9996895509"
-        }
-      ],
-      "toChainId": "1",
-      "toToken": {
-        "decimals": 6,
-        "tokenContractAddress": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-        "tokenSymbol": "USDC"
-      }
-    }
-  ],
-  "msg": ""
-}
-*/
 
 type QuoteResult struct {
 	FromChainId     string         `json:"fromChainId"`
@@ -120,7 +76,7 @@ type QuoteResult struct {
 	FromTokenAmount string         `json:"fromTokenAmount"`
 	FromToken       QuoteTokenInfo `json:"fromToken"`
 	ToToken         QuoteTokenInfo `json:"toToken"`
-	RouterList      []*Router      `json:"routerList"`
+	RouterList      []Router       `json:"routerList"`
 }
 
 // GetQuote Get quote

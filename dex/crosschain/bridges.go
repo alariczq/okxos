@@ -11,7 +11,7 @@ type BridgeInfo struct {
 }
 
 // GetSupportedBridges Get supported bridges
-func (c *CrossChainAPI) GetSupportedBridges(ctx context.Context, chainId string) (result []*BridgeInfo, err error) {
+func (c *CrossChainAPI) GetSupportedBridges(ctx context.Context, chainId string) (result []BridgeInfo, err error) {
 	params := map[string]string{}
 	if chainId != "" {
 		params["chainId"] = chainId

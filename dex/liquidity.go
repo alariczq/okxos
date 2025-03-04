@@ -12,7 +12,7 @@ type Liquidity struct {
 }
 
 // Get Liquidity
-func (d *DexAPI) GetLiquidity(ctx context.Context, chainId int64) (result []*Liquidity, err error) {
+func (d *DexAPI) GetLiquidity(ctx context.Context, chainId int64) (result []Liquidity, err error) {
 	params := map[string]string{
 		"chainId": strconv.FormatInt(chainId, 10),
 	}

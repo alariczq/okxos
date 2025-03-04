@@ -33,7 +33,7 @@ type TransactionOrder struct {
 }
 
 // Get Transaction Order
-func (w *WalletAPI) GetTransactionOrder(ctx context.Context, req *TransactionOrderRequest) (result []*TransactionOrder, err error) {
+func (w *WalletAPI) GetTransactionOrder(ctx context.Context, req *TransactionOrderRequest) (result []TransactionOrder, err error) {
 	params := map[string]string{}
 	if req.Address != "" {
 		params["address"] = req.Address
@@ -56,7 +56,7 @@ func (w *WalletAPI) GetTransactionOrder(ctx context.Context, req *TransactionOrd
 	if req.Limit != "" {
 		params["limit"] = req.Limit
 	}
-	var results []*TransactionOrder
+	var results []TransactionOrder
 	err = w.tr.Get(ctx, "/api/v5/wallet/post-transaction/orders", params, &results)
 	if err != nil {
 		return nil, err

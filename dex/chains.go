@@ -12,7 +12,7 @@ type ChainInfo struct {
 }
 
 // Get Supported Chains
-func (d *DexAPI) GetSupportedChains(ctx context.Context, chainId ...int64) (result []*ChainInfo, err error) {
+func (d *DexAPI) GetSupportedChains(ctx context.Context, chainId ...int64) (result []ChainInfo, err error) {
 	params := map[string]string{}
 	if len(chainId) > 0 && chainId[0] != 0 {
 		params["chainId"] = strconv.FormatInt(chainId[0], 10)
