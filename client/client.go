@@ -73,15 +73,18 @@ func (c *Client) request(method string, path string, params map[string]string, b
 }
 
 func (c *Client) decode(body io.Reader, result any) error {
-	resp := &Response{
-		Data: result,
-	}
+	resp := &Response{}
 	if err := json.NewDecoder(body).Decode(resp); err != nil {
 		return err
 	}
 
 	if code := resp.Code; code != 0 {
 		return errcode.New(code.Int(), resp.Message)
+	}
+
+	// when the occurred error, resp.Data maybe is a `{}` or `[]`.
+	if resp.Data != nil {
+		return json.Unmarshal(resp.Data, result)
 	}
 
 	return nil

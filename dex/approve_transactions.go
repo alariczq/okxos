@@ -28,8 +28,8 @@ import (
 type ApproveTransactionsRequest struct {
 	// ChainId is the chain ID (e.g., 1 for Ethereum. See Chain IDs)
 	ChainId string `json:"chainId"`
-	// TokenAddress is the contract address of a token to be sold (e.g., 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee)
-	TokenAddress string `json:"tokenAddress"`
+	// TokenContractAddress is the contract address of a token to be sold (e.g., 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee)
+	TokenContractAddress string `json:"tokenContractAddress"`
 	// ApproveAmount is the amount of token that needs to be permitted (set in minimal divisible units,
 	// e.g., 1.00 USDT set as 1000000, 1.00 DAI set as 1000000000000000000)
 	ApproveAmount string `json:"approveAmount"`
@@ -53,7 +53,7 @@ type ApproveTransactionsResult struct {
 func (s *DexAPI) ApproveTransactions(ctx context.Context, req *ApproveTransactionsRequest) (*ApproveTransactionsResult, error) {
 	params := map[string]string{
 		"chainId":              req.ChainId,
-		"tokenContractAddress": req.TokenAddress,
+		"tokenContractAddress": req.TokenContractAddress,
 		"approveAmount":        req.ApproveAmount,
 	}
 	var results []*ApproveTransactionsResult
