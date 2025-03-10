@@ -46,11 +46,11 @@ type ApproveTransactionsResult struct {
 	GasPrice string `json:"gasPrice"`
 }
 
-// ApproveTransactions According to the ERC-20 standard,
+// GetApproveTx According to the ERC-20 standard,
 // we need to make sure that the OKX router has permission to spend funds with the user's wallet before making a transaction.
 //
 // This API will generate the relevant data for calling the contract.
-func (s *DexAPI) ApproveTransactions(ctx context.Context, req *ApproveTransactionsRequest) (*ApproveTransactionsResult, error) {
+func (s *DexAPI) GetApproveTx(ctx context.Context, req *ApproveTransactionsRequest) (*ApproveTransactionsResult, error) {
 	params := map[string]string{
 		"chainId":              req.ChainId,
 		"tokenContractAddress": req.TokenContractAddress,
