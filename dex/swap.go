@@ -38,8 +38,8 @@ type Tx struct {
 	Value                string   `json:"value"`
 }
 
-// SwapRequest
-type SwapRequest struct {
+// GetSwapTxRequest
+type GetSwapTxRequest struct {
 	// Chain Id (e.g., 1 for Ethereum. See Chain IDs), Required
 	ChainId string `json:"chainId"`
 	// The input amount of a token to be sold, Required
@@ -107,7 +107,7 @@ type SwapRequest struct {
 	MaxAutoSlippage string `json:"maxAutoSlippage"`
 }
 
-type SwapResult struct {
+type GetSwapTxResult struct {
 	RouterResult *QuotesResult `json:"routerResult"`
 	Tx           *Tx           `json:"tx"`
 }
@@ -117,7 +117,7 @@ type SwapResult struct {
 // Note:
 // 1. For EVM chains: Transactions involving wrapped pairs, such as ETH and WETH, are not supported here.
 // 2. For Solana chain: The commission address must have some SOL deposited in advance for activation.
-func (d *DexAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResult, err error) {
+func (d *DexAPI) GetSwapTx(ctx context.Context, swap *GetSwapTxRequest) (result *GetSwapTxResult, err error) {
 	params := map[string]string{
 		"chainId":           swap.ChainId,
 		"amount":            swap.Amount,
@@ -172,7 +172,7 @@ func (d *DexAPI) Swap(ctx context.Context, swap *SwapRequest) (result *SwapResul
 		params["maxAutoSlippage"] = swap.MaxAutoSlippage
 	}
 
-	var results []*SwapResult
+	var results []*GetSwapTxResult
 	if err = d.tr.Get(ctx, "/api/v5/dex/aggregator/swap", params, &results); err != nil {
 		return nil, err
 	}
