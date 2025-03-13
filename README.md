@@ -32,7 +32,7 @@ if err != nil {
    - [x] Transaction Broadcasting API
 2. [ ] Dex API
    - [x] Swap API
-   - [ ] Cross Chain API
+   - [x] Cross Chain API
 3. [ ] Marketplace API
 4. [ ] DeFi API
 
