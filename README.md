@@ -27,7 +27,7 @@ if err != nil {
 
 # Roadmap
 
-1. [ ] Wallet API
+1. [x] Wallet API
    - [x] Wallet Account Management API
    - [x] Transaction Broadcasting API
 2. [ ] Dex API
