@@ -22,10 +22,12 @@ package dex
 import (
 	"github.com/imzhongqi/okxos/client"
 	"github.com/imzhongqi/okxos/dex/crosschain"
+	"github.com/imzhongqi/okxos/dex/limitorder"
 )
 
 type DexAPI struct {
 	CrossChain *crosschain.CrossChainAPI
+	LimitOrder *limitorder.LimitOrderAPI
 	tr         client.Transport
 }
 
@@ -33,5 +35,6 @@ func NewDexAPI(tr client.Transport) *DexAPI {
 	return &DexAPI{
 		tr:         tr,
 		CrossChain: crosschain.NewCrossChainAPI(tr),
+		LimitOrder: limitorder.NewLimitOrderAPI(tr),
 	}
 }

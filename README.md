@@ -30,12 +30,17 @@ if err != nil {
 1. [x] Wallet API
    - [x] Wallet Account Management API
    - [x] Transaction Broadcasting API
-2. [ ] Dex API
+2. [x] Dex API
    - [x] Swap API
    - [x] Cross Chain API
+   - [ ] Limit Order API **(WIP)**
 3. [ ] Marketplace API
 4. [ ] DeFi API
 
-# License
+## Contributing
+
+Contributions are welcome! Please feel free to submit a PR.
+
+## License
 
 [MIT](LICENSE)
