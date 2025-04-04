@@ -200,11 +200,15 @@ type GetTotalTokenBalancesByAccountRequest struct {
 func (w *WalletAPI) GetTotalTokenBalancesByAccount(ctx context.Context, req *GetTotalTokenBalancesByAccountRequest) (result *TokenBalanceResult, err error) {
 	params := map[string]string{
 		"accountId": req.AccountId,
-		"chains":    strings.Join(req.Chains, ","),
-		"filter":    req.Filter,
+	}
+	if len(req.Chains) > 0 {
+		params["chains"] = strings.Join(req.Chains, ",")
+	}
+	if req.Filter != "" {
+		params["filter"] = req.Filter
 	}
 	var results []*TokenBalanceResult
-	err = w.tr.Get(ctx, "/api/wallet/asset/wallet-all-token-balances", params, &results)
+	err = w.tr.Get(ctx, "/api/v5/wallet/asset/wallet-all-token-balances", params, &results)
 	if err != nil {
 		return nil, err
 	}
