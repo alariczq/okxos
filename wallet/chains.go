@@ -51,18 +51,26 @@ type TokenPrice struct {
 	Time         string `json:"time"`
 }
 
-func (w *WalletAPI) TokenIndexPrice(ctx context.Context, req []*TokenIndexPriceRequest) (result []TokenPrice, err error) {
+func (w *WalletAPI) TokenCurrentPrice(ctx context.Context, req []*TokenIndexPriceRequest) (result []TokenPrice, err error) {
 	err = w.tr.Post(ctx, "/api/v5/wallet/token/current-price", req, &result)
 	return
 }
 
-type RealTimeTokenPriceRequest struct {
-	ChainIndex   string `json:"chainIndex"`
+type GetRealTimeTokenPriceRequest struct {
+	ChainIndex string `json:"chainIndex"`
+	// Token address.
+	// 1: Pass an empty string "" to query the native token of the corresponding chain.
+	// 2: Pass the specific token contract address to query the corresponding token.
+	// 3: Different inscription tokens are passed in the following formats:
+	// FBRC-20: Use fbtc_fbrc20_name, such as fbtc_fbrc20_babymusk
+	// BRC-20: Use btc-brc20-tick(name), such as btc-brc20-ordi
+	// Runes: Use btc-runesMain-tickId, such as btc-runesMain-840000:2
+	// SRC-20: Use btc-src20-name, such as btc-src20-utxo
 	TokenAddress string `json:"tokenAddress"`
 }
 
-// Real-time Token Price
-func (w *WalletAPI) RealTimeTokenPrice(ctx context.Context, req []*RealTimeTokenPriceRequest) (result []TokenPrice, err error) {
+// Get Real-time Token Price
+func (w *WalletAPI) GetRealTimeTokenPrice(ctx context.Context, req []*GetRealTimeTokenPriceRequest) (result []TokenPrice, err error) {
 	err = w.tr.Post(ctx, "/api/v5/wallet/token/real-time-price", req, &result)
 	return
 }
